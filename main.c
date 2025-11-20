@@ -128,5 +128,14 @@ int main(int argc, char* argv[]) {
 
     int count = 0;
     Process* list = read_processes(filename, &count);
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (list[j].arrivalTime > list[j+1].arrivalTime) {
+                Process temp = list[j];
+                list[j] = list[j+1];
+                list[j+1] = temp;
+            }
+        }
+    }
     
 }
