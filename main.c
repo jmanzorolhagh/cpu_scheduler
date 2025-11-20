@@ -149,5 +149,11 @@ int main(int argc, char* argv[]) {
     int timeInQuantum = 0;
     int contextSwitchCounter = 0;
     Process* currentProcess = NULL;
-    
+    while (completedProcesses < count) {
+        for (int i = 0; i < count; i++) {
+            if (list[i].arrivalTime == currentTime) {
+                push(queues[list[i].priority], &list[i]); 
+            }
+        }
+    }
 }
