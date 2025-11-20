@@ -137,5 +137,17 @@ int main(int argc, char* argv[]) {
             }
         }
     }
+    printf("\nStarting Simulation | Quantum: %d | Processes: %d\n", time_quantum, count);
+
+    Queue* queues[MAX_PRIORITY];
+    for(int i = 0; i < MAX_PRIORITY; i++) {
+        queues[i] = createQueue();
+    }
+    
+    int currentTime = 0;
+    int completedProcesses = 0;
+    int timeInQuantum = 0;
+    int contextSwitchCounter = 0;
+    Process* currentProcess = NULL;
     
 }
