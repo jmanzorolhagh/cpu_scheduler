@@ -1,0 +1,4 @@
+pid,arrive,burst,priority
+101,0,20,2
+102,5,5,0
+103,10,5,1
