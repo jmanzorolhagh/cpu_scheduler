@@ -150,10 +150,21 @@ int main(int argc, char* argv[]) {
     int contextSwitchCounter = 0;
     Process* currentProcess = NULL;
     while (completedProcesses < count) {
-        for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++) {
             if (list[i].arrivalTime == currentTime) {
                 push(queues[list[i].priority], &list[i]); 
             }
         }
-    }
+
+        if (currentProcess != NULL) {
+            for (int p = 0; p < currentProcess->priority; p++) {
+                if (queues[p]->front != NULL) {
+                    contextSwitchCounter++;
+                    push(queues[currentProcess->priority], currentProcess);
+                    currentProcess = NULL;
+                    timeInQuantum = 0;
+                    break; 
+                }
+            }
+        }
 }
