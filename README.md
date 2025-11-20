@@ -8,6 +8,7 @@ This project visualizes process execution flows and calculates performance metri
 ![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey.svg)
 
 ---
+<img width="617" height="405" alt="image" src="https://github.com/user-attachments/assets/b222cb1f-d048-449a-83cf-89f8aca42f2a" />
 
 ## Table of Contents
 - [Overview](#overview)
