@@ -167,4 +167,41 @@ int main(int argc, char* argv[]) {
                 }
             }
         }
+        if (currentProcess != NULL) {
+            currentProcess->remainingTime--;
+            timeInQuantum++;
+
+            if (currentProcess->remainingTime == 0) {
+                currentProcess->completionTime = currentTime;
+                currentProcess->turnaroundTime = currentProcess->completionTime - currentProcess->arrivalTime;
+                currentProcess->waitingTime = currentProcess->turnaroundTime - currentProcess->burstTime;
+                
+                completedProcesses++;
+                currentProcess = NULL;
+                timeInQuantum = 0;
+            } 
+            else if (timeInQuantum == time_quantum) {
+                contextSwitchCounter++;
+                push(queues[currentProcess->priority], currentProcess);
+                currentProcess = NULL;
+                timeInQuantum = 0;
+            }
+        }
+        if (currentProcess == NULL) {
+            for (int p = 0; p < MAX_PRIORITY; p++) {
+                if (queues[p]->front != NULL) {
+                    currentProcess = pop(queues[p]);
+                    
+                    if (currentProcess->responseTime == -1) {
+                        currentProcess->responseTime = currentTime - currentProcess->arrivalTime;
+                    }
+                    break; 
+                }
+            }
+        }
+
+        if (completedProcesses < count) {
+            currentTime++;
+        }
+    }
 }
