@@ -60,3 +60,55 @@ Process* pop(Queue* q) {
     free(temp); 
     return p;
 }
+Process* read_processes(const char* filename, int* count) {
+    FILE* fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("Error: Could not open file %s\n", filename);
+        exit(1);
+    }
+
+    int lines = 0;
+    char buffer[256];
+        if (fgets(buffer, sizeof(buffer), fp) == NULL) return NULL; 
+
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        if (strlen(buffer) > 1) lines++; 
+    }
+    *count = lines;
+    Process* list = (Process*)malloc(lines * sizeof(Process));
+
+    rewind(fp);
+    fgets(buffer, sizeof(buffer), fp); 
+
+    int i = 0;
+    while (i < lines && fgets(buffer, sizeof(buffer), fp) != NULL) {
+        if (strlen(buffer) <= 1) continue;
+
+        int pid, arrival, burst, priority;
+        
+        int itemsRead = sscanf(buffer, "%d,%d,%d,%d", &pid, &arrival, &burst, &priority);
+        
+        list[i].pid = pid;
+        list[i].arrivalTime = arrival;
+        list[i].burstTime = burst;
+
+        if (itemsRead == 4) {
+            list[i].priority = priority;
+        } else {
+            list[i].priority = 0; 
+        }
+
+        if (list[i].priority < 0) list[i].priority = 0;
+        if (list[i].priority >= MAX_PRIORITY) list[i].priority = MAX_PRIORITY - 1;
+
+        list[i].remainingTime = list[i].burstTime;
+        list[i].waitingTime = 0;
+        list[i].turnaroundTime = 0;
+        list[i].completionTime = 0;
+        list[i].responseTime = -1; 
+        i++;
+    }
+
+    fclose(fp);
+    return list;
+}
