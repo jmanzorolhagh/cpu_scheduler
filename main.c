@@ -112,3 +112,21 @@ Process* read_processes(const char* filename, int* count) {
     fclose(fp);
     return list;
 }
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        printf("Usage: %s <filename> <time_quantum>\n", argv[0]);
+        return 1;
+    }
+
+    const char* filename = argv[1];
+    int time_quantum = atoi(argv[2]);
+    
+    if (time_quantum <= 0) {
+        printf("Error: Time quantum must be positive.\n");
+        return 1;
+    }
+
+    int count = 0;
+    Process* list = read_processes(filename, &count);
+    
+}
