@@ -145,3 +145,10 @@ By varying the Time Quantum and Priority levels, users can:
 - Compare CPU utilization under different workloads
 
 - Identify starvation risks in priority scheduling
+  
+**The Context Switch Trade-off**
+The data reveals a strict inverse relationship between the Time Quantum size and the number of Context Switches.Small Quantum (Q=1): The CPU "thrashed," performing 23 context switches. While this provides high responsiveness, it introduces significant system overhead.Large Quantum (Q=10+): The context switches dropped to 0. This indicates the system spent 100% of its time executing processes and 0% of its time managing queues.
+**Convergence to First-Come-First-Serve (FCFS)**
+A critical observation is that the results for Quantum 10 and Quantum 20 are identical.Reason: The largest burst time in the input set was 9 units.Conclusion: In Round Robin, when $Time Quantum \ge Max(Burst Time)$, the algorithm degrades into FCFS. The preemption logic is never triggered because every process finishes before its time expires. Increasing the quantum beyond 10 yields no change in scheduling order.
+**Waiting Time Optimization**
+For this specific dataset, larger time quantums resulted in lower Average Waiting Times (10.20 vs 12.40).Analysis: Smaller quantums (Q=1, Q=2) kept processes in the system longer by constantly pausing them to give others a turn. Larger quantums allowed short jobs (like PID 2 and 5) to exit the system immediately upon execution, removing their wait times from the average.
