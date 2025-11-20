@@ -204,4 +204,41 @@ int main(int argc, char* argv[]) {
             currentTime++;
         }
     }
+    double totalWaiting = 0;
+    double totalTurnaround = 0;
+
+    printf("\nPID\tPrio\tArrive\tBurst\tFinish\tTurn\tWait\tResp\n");
+    printf("----------------------------------------------------------------\n");
+    for (int i = 0; i < count; i++) {
+        totalWaiting += list[i].waitingTime;
+        totalTurnaround += list[i].turnaroundTime;
+        
+        printf("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+               list[i].pid, list[i].priority, list[i].arrivalTime, list[i].burstTime, 
+               list[i].completionTime, list[i].turnaroundTime, list[i].waitingTime, list[i].responseTime);
+    }
+
+    double avgWaiting = totalWaiting / count;
+    double avgTurnaround = totalTurnaround / count;
+    double throughput = 0;
+    if (currentTime > 0) throughput = (double)count / currentTime;
+    
+    double contextSwitchOverhead = 1; 
+    double utilization = 0;
+    if (currentTime > 0) {
+        utilization = 1.0 - ((contextSwitchOverhead * contextSwitchCounter) / currentTime);
+    }
+
+    printf("\n***************************************\n");
+    printf("Total Simulation Time:   %d\n", currentTime);
+    printf("Total Context Switches:  %d\n", contextSwitchCounter);
+    printf("***************************************\n");
+    printf("Average Waiting Time:    %.2f\n", avgWaiting);
+    printf("Average Turnaround Time: %.2f\n", avgTurnaround);
+    printf("Throughput:              %.4f processes/unit\n", throughput);
+    printf("CPU Utilization:         %.2f%%\n", utilization * 100.0);
+    printf("***************************************\n");
+
+
+    return 0;
 }
