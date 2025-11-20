@@ -239,6 +239,11 @@ int main(int argc, char* argv[]) {
     printf("CPU Utilization:         %.2f%%\n", utilization * 100.0);
     printf("***************************************\n");
 
+    free(list);
+    for(int i=0; i<MAX_PRIORITY; i++) {
+        while(queues[i]->front != NULL) pop(queues[i]); 
+        free(queues[i]); 
+    }
 
     return 0;
 }
